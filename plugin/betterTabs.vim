@@ -9,18 +9,41 @@ endif
 
 " Helper function for development purpose
 " Show the content of the bufferManager dictionary
-function! PrintBufManager()
-    let tabNumber = string(tabpagenr())
-    let bufNr = bufnr("%")
-    let bufName = bufname("%")
-
-
-    echo "Current position: " . tabNumber . " : " . bufNr . " (" . bufName .")"
-    
+function! ListBuffers()
     if exists("g:BuffersManager") 
-        let str = string(g:BuffersManager)
-        echo str
+        for tab in keys(g:BuffersManager)
+
+            if tab == tabpagenr()
+                let tabStatus = "> Tab "
+            else
+                let tabStatus = "  Tab "
+            endif
+
+            echo tabStatus . tab
+
+            for buf in g:BuffersManager[tab]
+
+                if buf == string(bufnr("%"))
+                    let bufStatus = " %"
+                elseif buf == string(bufnr("#"))
+                    let bufStatus = " #"
+                else
+                    let bufStatus = "  "
+                endif
+
+                if bufname(buf) == ""
+                    let bufName = "\"[No name]\""
+                else
+                    let bufName = " \"" . bufname(buf) . "\""
+                endif
+
+
+                echo "  " . buf . bufStatus . "\t"  bufName
+            endfor
+            echo "\n"
+        endfor
     endif
+
 endfunction
 
 " when a new buffer is created append it to the buffer manager
@@ -107,7 +130,7 @@ if g:betterTabsVim_map_keys
     nnoremap <Leader>l <Esc>:call NextBuffer()<CR>
     vnoremap <Leader>l <Esc>:call NextBuffer()<CR>
 
-    nnoremap <F2> :call PrintBufManager()<CR>
+    nnoremap <F2> :call ListBuffers()<CR>
 
     nnoremap <Leader>bc :call RemoveBufferFromTab()<CR>
 endif
