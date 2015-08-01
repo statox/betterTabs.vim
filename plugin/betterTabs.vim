@@ -109,6 +109,20 @@ function! PreviousBuffer()
     endif
 endfunction
 
+" when a tab is closed, close all the buffer it contains
+function! ClearTab()
+    let currentTabNr = string(tabpagenr())
+    if has_key(g:BuffersManager, currentTabNr)
+        if len(g:BuffersManager[currentTabNr]) > 0
+            for buf in g:BuffersManager[currentTabNr]
+                execute 'b' . buf
+                call RemoveBufferFromTab()
+            endfor
+        endif
+        call remove(g:BuffersManager, currentTabNr)
+    endif
+endfunction
+
 " autocommands to trigger the bufferManager actions
 augroup BuffersManagerGroup
     autocmd! BufEnter * call AddBufferToTab()
