@@ -48,6 +48,23 @@ The plugin also defines the following mappings:
 
 You can then use `<Leader>h` and `<Leader>l` to switch between the buffers.
 
+                                                                 *ChangeBuffer()*
+BetterTabs.vim also profides a function to change of buffer with the command
+line `ChangeBuffer()`. The output of the command is like the folowing:
+
+    > Tab 1                 ~
+      1 #    "/test/text"   ~
+      2 %    "asdf"         ~
+                            ~
+      Tab 2                 ~
+      3      "version.c"    ~
+
+    Buffer:              ~
+
+The user can input a buffer numer or a buffer name, the completion is set to
+the buffer names. Once the buffer is selected, betterTabs.vim changes the tab
+and the current.
+
 -------------------------------------------------------------------------------
 1.2 Closing a buffer                                      *RemoveBufferFromTab()*
 
