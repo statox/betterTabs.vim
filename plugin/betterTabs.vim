@@ -123,6 +123,38 @@ function! ClearTab()
     endif
 endfunction
 
+" Function allowing to change buffer keeping a consistent
+" state of the bufferManager
+function! ChangeBuffer()
+    " output the buffer list to help the user
+    call ListBuffers()
+
+    " get user input
+    let nextBuf = input("Buffer: ", "", "buffer")
+
+    " if the user inputs a buffer number we get the buffer name
+    " else the user had input a buffer name
+    if str2nr(nextBuf) != ""
+        let nextBufName = bufname(str2nr(nextBuf))
+    else
+        let nextBufName = nextBuf
+    endif
+
+    " looking for the buffer in the BufferManager
+    if exists("g:BuffersManager") 
+        for tab in keys(g:BuffersManager)
+            if index(g:BuffersManager[tab], bufnr(nextBufName)) != -1
+                " change to the tab containing the buffer
+                while string(tabpagenr()) != tab
+                    execute "tabn"
+                endwhile
+                " change to the buffer
+                execute "b " . nextBufName
+            endif
+        endfor
+    endif
+endfunction
+
 " autocommands to trigger the bufferManager actions
 augroup BuffersManagerGroup
     autocmd! BufEnter * call AddBufferToTab()
@@ -147,4 +179,7 @@ if g:betterTabsVim_map_keys
     nnoremap <F2> :call ListBuffers()<CR>
 
     nnoremap <Leader>bc :call RemoveBufferFromTab()<CR>
+
+    nnoremap <Leader>bb :call ChangeBuffer()<CR>
+    vnoremap <Leader>bb :call ChangeBuffer()<CR>
 endif
