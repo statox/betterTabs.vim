@@ -1,7 +1,6 @@
 " File: betterTabs.vim
 " Author: Adrien Fabre (statox)
 
-
 " Dictionary containing all the tabs and their buffers
 if !exists("g:BuffersManager") 
     let g:BuffersManager= {}
@@ -43,18 +42,19 @@ function! ListBuffers()
             echo "\n"
         endfor
     endif
-
 endfunction
 
 " when a new buffer is created append it to the buffer manager
 function! AddBufferToTab()
+    let newBufNr = bufnr("%") 
+
     if !has_key(g:BuffersManager, tabpagenr())
         let  g:BuffersManager[tabpagenr()] = []
     endif
 
     " Add the buffer to the tab
-    if index(g:BuffersManager[tabpagenr()], bufnr("%")) == -1 && bufnr("%") != "" && bufname("%") != "" && buflisted("%") != 0
-        call add (g:BuffersManager[tabpagenr()],bufnr("%"))
+    if index(g:BuffersManager[tabpagenr()], newBufNr) == -1 && buflisted(newBufNr) != 0
+        call add (g:BuffersManager[tabpagenr()],newBufNr)
     endif
 endfunction
 
