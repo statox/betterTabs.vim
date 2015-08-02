@@ -94,6 +94,21 @@ You can also use `F2` to print the list thanks to the following mapping:
 
     nnoremap <F2> :call ListBuffers()<CR>
 
+The output of the function is like the following:
+
+    > Tab 1                 ~
+      1 #    "/test/text"   ~
+      2 %    "asdf"         ~
+                            ~
+      Tab 2                 ~
+      3      "version.c"    ~
+
+The `>` character in front of the tab name shows the current opened tab.
+
+The description of the buffers is the same as the one made by the fonction
+*ls*
+
+
 ===============================================================================
 3. Mappings                                                   *BetterTabsMappings*
 
