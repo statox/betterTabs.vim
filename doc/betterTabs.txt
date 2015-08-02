@@ -106,7 +106,7 @@ The output of the function is like the following:
 The `>` character in front of the tab name shows the current opened tab.
 
 The description of the buffers is the same as the one made by the fonction
-*ls*
+|ls|
 
 
 ===============================================================================
