@@ -60,7 +60,6 @@ endfunction
 
 " when a buffer is closed remove it from the buffer manager
 function! RemoveBufferFromTab()
-    echom "Removing buffer"
     let currentTabNr = string(tabpagenr())
     let bufNr = bufnr("%")
     let altBufNr = bufnr("#")
@@ -170,16 +169,19 @@ endif
 
 " create the mappings of the plugin
 if g:betterTabsVim_map_keys
+    " change of buffer in the current tab
     nnoremap <Leader>h <Esc>:call PreviousBuffer()<CR>
-    vnoremap <Leader>h <Esc>:call PreviousBuffer()<CR>
-    
     nnoremap <Leader>l <Esc>:call NextBuffer()<CR>
-    vnoremap <Leader>l <Esc>:call NextBuffer()<CR>
 
+    " change of buffer in any tab
+    nnoremap <Leader>bb :call ChangeBuffer()<CR>
+
+    " list buffers
     nnoremap <F2> :call ListBuffers()<CR>
 
+    " delete a buffer
     nnoremap <Leader>bc :call RemoveBufferFromTab()<CR>
 
-    nnoremap <Leader>bb :call ChangeBuffer()<CR>
-    vnoremap <Leader>bb :call ChangeBuffer()<CR>
+    " close a tab and the buffers it contains
+    nnoremap <Leader>tc :call ClearTab()<CR>
 endif
