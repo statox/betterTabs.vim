@@ -1,0 +1,139 @@
+*betterTabs.txt* Easily work on different projects is the same Vim instance
+
+         ____       _   _           _____     _         ~
+        | __ )  ___| |_| |_ ___ _ _|_   _|_ _| |__  ___ ~
+        |  _ \ / _ \ __| __/ _ \ '__|| |/ _` | '_ \/ __|~
+        | |_) |  __/ |_| ||  __/ |   | | (_| | |_) \__ \~
+        |____/ \___|\__|\__\___|_|   |_|\__,_|_.__/|___/~
+  
+A buffer manager allowing to create a real separation between your tabs!
+
+(This help file is a work in progress it might lack of different sections)
+===============================================================================
+CONTENTS                                                     *BetterTabsContents*
+
+    1. Usage ................ |BetterTabsUsage|
+    2. Mappings ............. |BetterTabsMappings|
+    3. License .............. |BetterTabsLicense|
+    4. Bugs ................. |BetterTabsBugs|
+    5. Contributing ......... |BetterTabsContributing|
+    6. Changelog ............ |BetterTabsChangelog|
+    7. Credits .............. |BetterTabsCredits|
+
+===============================================================================
+1. Usage                                                        *BetterTabsUsage*
+
+Adding a buffer to a tab
+This plugin uses autocommands when a new buffer is created so the user doesn't
+have to worry about how they're handled. Simply open tabs as you usually do and
+use your prefered way to open a buffer.
+
+Once a buffer is open in a tab it can't be accessed from another tab. To
+switch between tabs the user can use `tabnext` and `tabprevious` as usual.
+
+-------------------------------------------------------------------------------
+1.1 Switching between buffers                                      *NextBuffer()*
+                                                               *PreviousBuffer()*
+
+To switch between the buffers of a tab use the commands `NextBuffer()` and
+`PreviousBuffer()`.
+
+The plugin also defines the following mappings:
+
+    nnoremap <Leader>h <Esc>:call PreviousBuffer()<CR>
+    vnoremap <Leader>h <Esc>:call PreviousBuffer()<CR>
+    
+    nnoremap <Leader>l <Esc>:call NextBuffer()<CR>
+    vnoremap <Leader>l <Esc>:call NextBuffer()<CR>
+
+You can then use `<Leader>h` and `<Leader>l` to switch between the buffers.
+
+-------------------------------------------------------------------------------
+1.2 Closing a buffer                                      *RemoveBufferFromTab()*
+
+To keep the behavior of this plugin consistent, users shouldn't use `bdelete`
+but the function `RemoveBufferFromTab()`.
+
+The following mapping is also defined:
+
+    nnoremap <Leader>bc :call RemoveBufferFromTab()<CR>
+
+So the user can use `<Leader>bc` to close a buffer.
+
+-------------------------------------------------------------------------------
+1.3 Closing a tab                                                    *ClearTab()*
+
+To keep the behavior of this plugin consistent, users shouldn't use `tabclose`
+but the function `ClearTab()`.
+
+
+-------------------------------------------------------------------------------
+1.4 Listing the buffers                                           *ListBuffers()*
+
+The function `ListBuffers()` allows you to see the different tabs open and the
+buffers contained in the tabs.
+
+You can also use `F2` to print the list thanks to the following mapping:
+
+    nnoremap <F2> :call ListBuffers()<CR>
+
+===============================================================================
+3. Mappings                                                   *BetterTabsMappings*
+
+The following mappings are provided by the plugin
+
+    nnoremap <Leader>h <Esc>:call PreviousBuffer()<CR>
+    vnoremap <Leader>h <Esc>:call PreviousBuffer()<CR>
+    
+    nnoremap <Leader>l <Esc>:call NextBuffer()<CR>
+    vnoremap <Leader>l <Esc>:call NextBuffer()<CR>
+
+    nnoremap <F2> :call ListBuffers()<CR>
+
+    nnoremap <Leader>bc :call RemoveBufferFromTab()<CR>
+
+
+It is possible to disable the default mappings to override them, simply add the
+following line to your `.vimrc`:
+
+    let g:betterTabsVim_map_keys = 0
+
+===============================================================================
+4. License                                                    *BetterTabsLicense*
+
+The MIT License (MIT)
+
+Copyright (c) 2015 Adrien Fabre
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+
+===============================================================================
+5. Bugs                                                          *BetterTabsBugs*
+
+To report a bug please feel an issue on:
+
+https://github.com/statox/betterTabs.vim/issues
+
+===============================================================================
+6. Contributing                                          *BetterTabsContributing*
+===============================================================================
+7. Changelog                                                *BetterTabsChangelog*
+===============================================================================
+8. Credits                                                    *BetterTabsCredits*
