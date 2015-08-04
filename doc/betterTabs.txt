@@ -13,12 +13,6 @@ A buffer manager allowing to create a real separation between your tabs!
 CONTENTS                                                     *BetterTabsContents*
 
     1. Usage ................ |BetterTabsUsage|
-        1.1 Switching between buffers ............. |NextBuffer()|
-                                      ............. |PreviousBuffer()|
-                                      ............. |ChangeBuffer()|
-        1.2 Closing a buffer ...................... |RemoveBufferFromTab()|
-        1.3 Closing a tab ......................... |ClearTab()|
-        1.4 Listing the buffers ................... |ListBuffers()|
     2. Mappings ............. |BetterTabsMappings|
     3. License .............. |BetterTabsLicense|
     4. Bugs ................. |BetterTabsBugs|
@@ -38,81 +32,70 @@ Once a buffer is open in a tab it can't be accessed from another tab. To
 switch between tabs the user can use `tabnext` and `tabprevious` as usual.
 
 -------------------------------------------------------------------------------
-1.1 Switching between buffers                                      *NextBuffer()*
-                                                               *PreviousBuffer()*
+1.1. Global Commands
 
-To switch between the buffers of a tab use the commands `NextBuffer()` and
-`PreviousBuffer()`.
-
-The plugin also defines the following mappings:
-
-    nnoremap <Leader>h <Esc>:call PreviousBuffer()<CR>
-    vnoremap <Leader>h <Esc>:call PreviousBuffer()<CR>
+:NextBuf                                                               *:NextBuf*
+    Change to the next buffer in the tab. If the buffer is the last of the tab
+    this command cycle to the first one in the tab.
     
-    nnoremap <Leader>l <Esc>:call NextBuffer()<CR>
-    vnoremap <Leader>l <Esc>:call NextBuffer()<CR>
+    The user shouldn't use |bnext| which would create an inconsistent state in 
+    the buffer manager.
 
-You can then use `<Leader>h` and `<Leader>l` to switch between the buffers.
+:PrevBuf                                                               :*PrevBuf*
+    Change to the previous buffer in the tab. If the buffer is the first of the
+    tab this command cycle to the last one in the tab
 
-                                                                 *ChangeBuffer()*
-BetterTabs.vim also profides a function to change of buffer with the command
-line `ChangeBuffer()`. The output of the command is like the folowing:
+    The user shouldn't use |bNext| or |bprevious| which would create an inconsistent
+    state in the buffer manager.
 
-    > Tab 1                 ~
-      1 #    "/test/text"   ~
-      2 %    "asdf"         ~
-                            ~
-      Tab 2                 ~
-      3      "version.c"    ~
+:ChangeBuf                                                           *:ChangeBuf*
+    Outputs the current buffers organisation and wait for the user to select
+    the buffer he want to access. This function ensure a consistent behavior
+    thus the user shouldn't use |b| to change of buffer
 
-    Buffer:              ~
+    The output of the command is like the folowing:
 
-The user can input a buffer numer or a buffer name, the completion is set to
-the buffer names. Once the buffer is selected, betterTabs.vim changes the tab
-and the current.
+        > Tab 1                 ~
+          1 #    "/test/text"   ~
+          2 %    "asdf"         ~
+                                ~
+          Tab 2                 ~
+          3      "version.c"    ~
 
--------------------------------------------------------------------------------
-1.2 Closing a buffer                                      *RemoveBufferFromTab()*
+        Buffer:              ~
 
-To keep the behavior of this plugin consistent, users shouldn't use `bdelete`
-but the function `RemoveBufferFromTab()`.
+    The user can input a buffer numer or a buffer name, the completion is set to
+    the buffer names. Once the buffer is selected, betterTabs.vim changes the tab
+    and the current.
 
-The following mapping is also defined:
+:CloseBuf                                                             *:CloseBuf*
+    Close a buffer.
+    
+    To keep the behavior of this plugin consistent, users shouldn't use
+    |bdelete|.
 
-    nnoremap <Leader>bc :call RemoveBufferFromTab()<CR>
+:CloseTab                                                             *:CloseTab*
+    Close a tab.
 
-So the user can use `<Leader>bc` to close a buffer.
+    To keep the behavior of this plugin consistent, users shouldn't use |tabclose|.
 
--------------------------------------------------------------------------------
-1.3 Closing a tab                                                    *ClearTab()*
+:ListBuf                                                               *:ListBuf*
 
-To keep the behavior of this plugin consistent, users shouldn't use `tabclose`
-but the function `ClearTab()`.
+    Allows you to see the different tabs open and the buffers contained
+    in the tabs.
 
+    The output of the function is like the following:
 
--------------------------------------------------------------------------------
-1.4 Listing the buffers                                           *ListBuffers()*
+        > Tab 1                 ~
+          1 #    "/test/text"   ~
+          2 %    "asdf"         ~
+                                ~
+          Tab 2                 ~
+          3      "version.c"    ~
 
-The function `ListBuffers()` allows you to see the different tabs open and the
-buffers contained in the tabs.
+    The `>` character in front of the tab name shows the current opened tab.
 
-You can also use `F2` to print the list thanks to the following mapping:
-
-    nnoremap <F2> :call ListBuffers()<CR>
-
-The output of the function is like the following:
-
-    > Tab 1                 ~
-      1 #    "/test/text"   ~
-      2 %    "asdf"         ~
-                            ~
-      Tab 2                 ~
-      3      "version.c"    ~
-
-The `>` character in front of the tab name shows the current opened tab.
-
-The description of the buffers is the same as the one made by the fonction
-|ls|
+    The description of the buffers is the same as the one made by the fonction |ls|
 
 
 ===============================================================================
