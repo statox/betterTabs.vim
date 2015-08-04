@@ -42,40 +42,37 @@ Once a buffer is open in a tab it can't be accessed from another tab. To
 switch between tabs the user can use `tabnext` and `tabprevious` as usual.
 
 ## Switching between buffers
-To switch between the buffers of a tab use the commands `NextBuffer()` and
-`PreviousBuffer()`.
+To switch between the buffers of a tab use the commands `:NextBuf` and
+`:PrevBuf`.
 
 The plugin also defines the following mappings:
 
-    nnoremap <Leader>h <Esc>:call PreviousBuffer()<CR>
-    vnoremap <Leader>h <Esc>:call PreviousBuffer()<CR>
-    
-    nnoremap <Leader>l <Esc>:call NextBuffer()<CR>
-    vnoremap <Leader>l <Esc>:call NextBuffer()<CR>
+    nnoremap <Leader>h :PrevBuf<CR>
+    nnoremap <Leader>l :NextBuf<CR>
 
 You can then use `<Leader>h` and `<Leader>l` to switch between the buffers.
 
 ## Closing a buffer
 To keep the behavior of this plugin consistent, users shouldn't use `bdelete`
-but the function `RemoveBufferFromTab()`.
+but the command `:CloseBuf`.
 
 The following mapping is also defined:
 
-    nnoremap <Leader>bc :call RemoveBufferFromTab()<CR>
+    nnoremap <Leader>bc :CloseBuf<CR>
 
 So the user can use `<Leader>bc` to close a buffer.
 
 ## Closing a tab
 To keep the behavior of this plugin consistent, users shouldn't use `tabclose`
-but the function `ClearTab()`.
+but the command `:CloseTab`.
 
 ## Listing the buffers
-The function `ListBuffers()` allows you to see the different tabs open and the
+The command `:ListBuf` allows you to see the different tabs open and the
 buffers contained in the tabs.
 
 You can also use `F2` to print the list thanks to the following mapping:
 
-    nnoremap <F2> :call ListBuffers()<CR>
+    nnoremap <F2> :ListBuf<CR>
 
 ## Disabling mappings
 It is possible to disable the default mappings to override them, simply add the
