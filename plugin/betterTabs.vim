@@ -162,6 +162,14 @@ augroup BuffersManagerGroup
 augroup END
 
 
+" Create the command which are easier to use than functions
+command! NextBuf   call NextBuffer()
+command! PrevBuf   call PreviousBuffer()
+command! ChangeBuf call ChangeBuffer()
+command! ListBuf   call ListBuffers()
+command! CloseBuf  call RemoveBufferFromTab()
+command! CloseTab  call ClearTab()
+
 " Let the users override the default mapping if they want
 if !exists('g:betterTabsVim_map_keys')
     let g:betterTabsVim_map_keys = 1
@@ -170,18 +178,18 @@ endif
 " create the mappings of the plugin
 if g:betterTabsVim_map_keys
     " change of buffer in the current tab
-    nnoremap <Leader>h <Esc>:call PreviousBuffer()<CR>
-    nnoremap <Leader>l <Esc>:call NextBuffer()<CR>
+    nnoremap <Leader>h :PrevBuf<CR>
+    nnoremap <Leader>l :NextBuf<CR>
 
     " change of buffer in any tab
-    nnoremap <Leader>bb :call ChangeBuffer()<CR>
+    nnoremap <Leader>bb :ChangeBuf<CR>
 
     " list buffers
-    nnoremap <F2> :call ListBuffers()<CR>
+    nnoremap <F2> :ListBuf<CR>
 
     " delete a buffer
-    nnoremap <Leader>bc :call RemoveBufferFromTab()<CR>
+    nnoremap <Leader>bc :CloseBuf<CR>
 
     " close a tab and the buffers it contains
-    nnoremap <Leader>tc :call ClearTab()<CR>
+    nnoremap <Leader>tc :CloseTab<CR>
 endif
