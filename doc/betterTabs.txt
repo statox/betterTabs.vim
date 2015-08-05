@@ -8,22 +8,27 @@
   
 A buffer manager allowing to create a real separation between your tabs!
 
-(This help file is a work in progress it might lack of different sections)
+(This help file is a work in progress it might need some improvements and
+contain some unwanted typos/grammar mistakes/satan invocations)
 ===============================================================================
 CONTENTS                                                     *BetterTabsContents*
 
     1. Usage ................ |BetterTabsUsage|
-    2. Mappings ............. |BetterTabsMappings|
-    3. License .............. |BetterTabsLicense|
-    4. Bugs ................. |BetterTabsBugs|
-    5. Contributing ......... |BetterTabsContributing|
-    6. Changelog ............ |BetterTabsChangelog|
-    7. Credits .............. |BetterTabsCredits|
+    2. Commands ............. |BetterTabsCommands|
+    3. Mappings ............. |BetterTabsMappings|
+    4. License .............. |BetterTabsLicense|
+    5. Bugs ................. |BetterTabsBugs|
+    6. Contributing ......... |BetterTabsContributing|
+    7. Changelog ............ |BetterTabsChangelog|
 
 ===============================================================================
 1. Usage                                                        *BetterTabsUsage*
 
-Adding a buffer to a tab
+BetterTabs allow you to separate your buffers into different tabs.
+
+It was created to let the user work on different projects -each project in a
+tab- without having a buffer passing from a tab to another by mistake.
+
 This plugin uses autocommands when a new buffer is created so the user doesn't
 have to worry about how they're handled. Simply open tabs as you usually do and
 use your prefered way to open a buffer.
@@ -31,8 +36,8 @@ use your prefered way to open a buffer.
 Once a buffer is open in a tab it can't be accessed from another tab. To
 switch between tabs the user can use `tabnext` and `tabprevious` as usual.
 
--------------------------------------------------------------------------------
-1.1. Global Commands
+===============================================================================
+2. Commands                                                  *BetterTabsCommands*
 
 :NextBuf                                                               *:NextBuf*
     Change to the next buffer in the tab. If the buffer is the last of the tab
@@ -45,8 +50,8 @@ switch between tabs the user can use `tabnext` and `tabprevious` as usual.
     Change to the previous buffer in the tab. If the buffer is the first of the
     tab this command cycle to the last one in the tab
 
-    The user shouldn't use |bNext| or |bprevious| which would create an inconsistent
-    state in the buffer manager.
+    The user shouldn't use |bNext| or |bprevious| which would create an 
+    inconsistent state in the buffer manager.
 
 :ChangeBuf                                                           *:ChangeBuf*
     Outputs the current buffers organisation and wait for the user to select
@@ -64,9 +69,9 @@ switch between tabs the user can use `tabnext` and `tabprevious` as usual.
 
         Buffer:              ~
 
-    The user can input a buffer numer or a buffer name, the completion is set to
-    the buffer names. Once the buffer is selected, betterTabs.vim changes the tab
-    and the current.
+    The user can input a buffer numer or a buffer name, the completion is set
+    to the buffer names. Once the buffer is selected, betterTabs.vim changes 
+    the tab and the current.
 
 :CloseBuf                                                             *:CloseBuf*
     Close a buffer.
@@ -77,7 +82,8 @@ switch between tabs the user can use `tabnext` and `tabprevious` as usual.
 :CloseTab                                                             *:CloseTab*
     Close a tab.
 
-    To keep the behavior of this plugin consistent, users shouldn't use |tabclose|.
+    To keep the behavior of this plugin consistent, users shouldn't use
+    the built-in command |tabclose|.
 
 :ListBuf                                                               *:ListBuf*
 
@@ -95,32 +101,49 @@ switch between tabs the user can use `tabnext` and `tabprevious` as usual.
 
     The `>` character in front of the tab name shows the current opened tab.
 
-    The description of the buffers is the same as the one made by the fonction |ls|
+    The description of the buffers is the same as the one made by the 
+    built-in command |ls|
 
 
 ===============================================================================
-3. Mappings                                                   *BetterTabsMappings*
+3. Mappings                                                  *BetterTabsMappings*
 
-The following mappings are provided by the plugin
+BetterTabs.vim provides different mappings to call more easily commands
+defined in |BetterTabsCommands|.
 
-    nnoremap <Leader>h <Esc>:call PreviousBuffer()<CR>
-    vnoremap <Leader>h <Esc>:call PreviousBuffer()<CR>
-    
-    nnoremap <Leader>l <Esc>:call NextBuffer()<CR>
-    vnoremap <Leader>l <Esc>:call NextBuffer()<CR>
+It is possible to disable these mapping by simply adding the following line to
+your |.vimrc|:
 
-    nnoremap <F2> :call ListBuffers()<CR>
+    " Disable BetterTabs.vim mappings ~
+    let g:betterTabsVim_map_keys = 0  ~
 
-    nnoremap <Leader>bc :call RemoveBufferFromTab()<CR>
+Provided mappings are the following:
 
+Changing of buffer: ~
+    <Leader-h>
+    Change to next buffer in tab (see: |:NextBuf|)
 
-It is possible to disable the default mappings to override them, simply add the
-following line to your `.vimrc`:
+    <Leader-j>
+    Change to previous buffer in tab (see: |:PrevBuf|)
 
-    let g:betterTabsVim_map_keys = 0
+    <Leader-bb>
+    Change of buffer in any tab (see: |:ChangeBuf|)
+
+Closing buffers: ~
+    <Leader-bc>
+    Delete a buffer (see: |:CloseBuf|)
+
+    <Leader-tc>
+    Close a tab and the buffers it contains (see: |:CloseTab|)
+
+Others: ~
+    <F2>
+    List the current organisation of the tabs (see: |:ListBuf|)
 
 ===============================================================================
 4. License                                                    *BetterTabsLicense*
+
+BetterTabs.vim is distributed with the following license:
 
 The MIT License (MIT)
 
@@ -148,13 +171,24 @@ SOFTWARE.
 ===============================================================================
 5. Bugs                                                          *BetterTabsBugs*
 
-To report a bug please feel an issue on:
+To report a bug please feel free to leave an issue on:
 
 https://github.com/statox/betterTabs.vim/issues
 
 ===============================================================================
 6. Contributing                                          *BetterTabsContributing*
+
+If you want to help contributing to this plugin feel free to fork the github
+repo https://github.com/statox/betterTabs.vim and to send pull request the
+author will gladly look at them and merge them in the project.
+
+Also if you don't feel like forking and coding you can sacrifice an Oreo to
+our Lord and Savior Santan in the name of the author that also be really
+appreciated.
+
 ===============================================================================
 7. Changelog                                                *BetterTabsChangelog*
-===============================================================================
-8. Credits                                                    *BetterTabsCredits*
+
+BetterTabs.vim isn't yet in a stable version. When I'll have finished the
+development you'll hopefully find here the changelog of the different stable
+version and maybe some prevision for future features. Well... Maybe.
