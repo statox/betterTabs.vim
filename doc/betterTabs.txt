@@ -46,7 +46,7 @@ switch between tabs the user can use `tabnext` and `tabprevious` as usual.
     The user shouldn't use |bnext| which would create an inconsistent state in 
     the buffer manager.
 
-:PrevBuf                                                               :*PrevBuf*
+:PrevBuf                                                               *:PrevBuf*
     Change to the previous buffer in the tab. If the buffer is the first of the
     tab this command cycle to the last one in the tab
 
@@ -56,7 +56,7 @@ switch between tabs the user can use `tabnext` and `tabprevious` as usual.
 :ChangeBuf                                                           *:ChangeBuf*
     Outputs the current buffers organisation and wait for the user to select
     the buffer he want to access. This function ensure a consistent behavior
-    thus the user shouldn't use |b| to change of buffer
+    thus the user shouldn't use |buffer| to change of buffer
 
     The output of the command is like the folowing:
 
