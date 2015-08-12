@@ -81,7 +81,9 @@ function! RemoveBufferFromTab()
             " delete the buffer
             execute 'bdelete ' . bufNr
         else
-            echom ("no buffer " . bufNr . " in tab " . currentTabNr)
+            "echom ("no buffer " . bufNr . " in tab " . currentTabNr)
+            " delete the buffer
+            execute 'bdelete ' . bufNr
         endif
     else
         echom ("no entry for tab " . currentTabNr)
@@ -157,6 +159,8 @@ endfunction
 " autocommands to trigger the bufferManager actions
 augroup BuffersManagerGroup
     autocmd! BufEnter * call AddBufferToTab()
+    autocmd! BufWinEnter * call AddBufferToTab()
+    autocmd! WinEnter * call AddBufferToTab()
     "autocmd! BufWipeout * call RemoveBufferFromTab()
     "autocmd! BufDelete  * call RemoveBufferFromTab()
 augroup END
