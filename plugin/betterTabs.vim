@@ -53,7 +53,7 @@ function! AddBufferToTab()
     endif
 
     " Add the buffer to the tab
-    if index(g:BuffersManager[tabpagenr()], newBufNr) == -1 && buflisted(newBufNr) != 0
+    if index(g:BuffersManager[tabpagenr()], newBufNr) == -1 && buflisted(newBufNr)
         call add (g:BuffersManager[tabpagenr()],newBufNr)
     endif
 endfunction
