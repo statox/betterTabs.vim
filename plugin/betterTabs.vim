@@ -1,6 +1,13 @@
 " File: betterTabs.vim
 " Author: Adrien Fabre (statox)
 
+
+" Let's not be dictators, users can disable the plugin if they want
+if exists("g:loaded_betterTabs")
+    finish
+endif
+let g:loaded_betterTabs = 1
+
 " save cpoptions and restore at the end of the script
 let s:save_cpo = &cpo
 set cpo&vim
