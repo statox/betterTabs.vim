@@ -1,5 +1,7 @@
-" File: betterTabs.vim
-" Author: Adrien Fabre (statox)
+" Vim plugin to keep buffers separated in tabs they were open in
+" File:     betterTabs.vim
+" Author:   Adrien Fabre (statox)
+" License:  This file is distributed under the MIT License
 
 
 " Let's not be dictators, users can disable the plugin if they want
