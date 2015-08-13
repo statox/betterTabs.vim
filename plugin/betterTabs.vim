@@ -1,6 +1,10 @@
 " File: betterTabs.vim
 " Author: Adrien Fabre (statox)
 
+" save cpoptions and restore at the end of the script
+let s:save_cpo = &cpo
+set cpo&vim
+
 " Dictionary containing all the tabs and their buffers
 if !exists("g:BuffersManager") 
     let g:BuffersManager= {}
@@ -48,12 +52,13 @@ endfunction
 function! AddBufferToTab()
     let newBufNr = bufnr("%") 
 
+    " create an entry for the current tab if necessary
     if !has_key(g:BuffersManager, tabpagenr())
         let  g:BuffersManager[tabpagenr()] = []
     endif
 
     " Add the buffer to the tab
-    if index(g:BuffersManager[tabpagenr()], newBufNr) == -1 && buflisted(newBufNr)
+    if buflisted(newBufNr) && index(g:BuffersManager[tabpagenr()], newBufNr) == -1
         call add (g:BuffersManager[tabpagenr()],newBufNr)
     endif
 endfunction
@@ -197,3 +202,7 @@ if g:betterTabsVim_map_keys
     " close a tab and the buffers it contains
     nnoremap <Leader>tc :CloseTab<CR>
 endif
+
+" restore cpoptions
+let &cpo = s:save_cpo
+unlet s:save_cpo
