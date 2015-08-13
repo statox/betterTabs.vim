@@ -173,8 +173,8 @@ endfunction
 " autocommands to trigger the bufferManager actions
 augroup BuffersManagerGroup
     autocmd! BufEnter * call AddBufferToTab()
-    autocmd! BufWinEnter * call AddBufferToTab()
-    autocmd! WinEnter * call AddBufferToTab()
+    "autocmd! BufWinEnter * call AddBufferToTab()
+    "autocmd! WinEnter * call AddBufferToTab()
     "autocmd! BufWipeout * call RemoveBufferFromTab()
     "autocmd! BufDelete  * call RemoveBufferFromTab()
 augroup END
