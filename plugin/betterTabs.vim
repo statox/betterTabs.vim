@@ -19,11 +19,6 @@ if !exists("g:BuffersManager")
     let g:BuffersManager= {}
 endif
 
-" List containing the filetype of buffers not to add in the manager
-if !exists("s:ignoredFiletypes")
-    let s:ignoredFiletypes = ["help", "nerdtree"]
-endif
-
 " Helper function for development purpose
 " Show the content of the bufferManager dictionary
 function! ListBuffers()
@@ -63,36 +58,18 @@ function! ListBuffers()
 endfunction
 
 " when a new buffer is created append it to the buffer manager
-function! AddBufferToTab(bufNumber)
-    let newBufNr = a:bufNumber
+function! AddBufferToTab()
+    let newBufNr = bufnr("%") 
 
     " create an entry for the current tab if necessary
     if !has_key(g:BuffersManager, tabpagenr())
         let  g:BuffersManager[tabpagenr()] = []
     endif
 
-    " Get conditions to add the tab
-    let isListed            =  buflisted(newBufNr)
-    let isAlreadyInManager  =  index(g:BuffersManager[tabpagenr()], newBufNr) == -1
-    let isNERDTreeBuffer    =  bufname("%") =~ "NERD_Tree_"
-    let isOfIgnoredFT       =  index(s:ignoredFiletypes, &filetype) == -1
-
-    " Debugging messages
-    echom bufname("%")
-    echom "isListed " . isListed . " isAlreadyInManager " . isAlreadyInManager . " isOfIgnoredFT " . isOfIgnoredFT . " FT " . &filetype
-    echom "========="
-
     " Add the buffer to the tab
-    if isListed && !isAlreadyInManager && !isNERDTreeBuffer
+    if buflisted(newBufNr) && index(g:BuffersManager[tabpagenr()], newBufNr) == -1
         call add (g:BuffersManager[tabpagenr()],newBufNr)
     endif
-
-    " remove a buffer if it was added whereas it shoudln't
-    " (solve the issue with nerdtree buffers which are created and then set as hidden)
-    if isAlreadyInManager && (!isListed || isNERDTreeBuffer || isOfIgnoredFT)
-        call RemoveBufferFromTab()
-    endif
-
 endfunction
 
 " when a buffer is closed remove it from the buffer manager
@@ -132,7 +109,7 @@ function! NextBuffer()
     " find the index of the next buffer for the current tab
     let s = index(g:BuffersManager[tabpagenr()], bufnr("%"))
     if (s != -1)
-        let s = (s + 1) % len(g:BuffersManager[tabpagenr()])
+        let s = (s +1) % len(g:BuffersManager[tabpagenr()])
         execute 'b ' . g:BuffersManager[tabpagenr()][s]
     endif
 endfunction
@@ -195,11 +172,11 @@ endfunction
 
 " autocommands to trigger the bufferManager actions
 augroup BuffersManagerGroup
-    autocmd! BufEnter     * call AddBufferToTab(str2nr(expand('<abuf>')))
-    autocmd! BufWinEnter  * call AddBufferToTab(str2nr(expand('<abuf>')))
-    autocmd! BufNew       * call AddBufferToTab(str2nr(expand('<abuf>')))
-    autocmd! BufAdd       * call AddBufferToTab(str2nr(expand('<abuf>')))
-    autocmd! BufCreate    * call AddBufferToTab(str2nr(expand('<abuf>')))
+    autocmd! BufEnter * call AddBufferToTab()
+    "autocmd! BufWinEnter * call AddBufferToTab()
+    "autocmd! WinEnter * call AddBufferToTab()
+    "autocmd! BufWipeout * call RemoveBufferFromTab()
+    "autocmd! BufDelete  * call RemoveBufferFromTab()
 augroup END
 
 
