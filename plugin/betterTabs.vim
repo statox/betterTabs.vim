@@ -15,8 +15,8 @@ let s:save_cpo = &cpo
 set cpo&vim
 
 " Dictionary containing all the tabs and their buffers
-if !exists("g:BuffersManager") 
-    let g:BuffersManager= {}
+if !exists("s:BuffersManager") 
+    let s:BuffersManager= {}
 endif
 
 " List containing the filetype of buffers not to add in the manager
@@ -27,8 +27,8 @@ endif
 " Helper function for development purpose
 " Show the content of the bufferManager dictionary
 function! ListBuffers()
-    if exists("g:BuffersManager") 
-        for tab in keys(g:BuffersManager)
+    if exists("s:BuffersManager") 
+        for tab in keys(s:BuffersManager)
 
             if tab == tabpagenr()
                 let tabStatus = "> Tab "
@@ -38,7 +38,7 @@ function! ListBuffers()
 
             echo tabStatus . tab
 
-            for buf in g:BuffersManager[tab]
+            for buf in s:BuffersManager[tab]
 
                 if buf == string(bufnr("%"))
                     let bufStatus = " %"
@@ -67,18 +67,19 @@ function! AddBufferToTab()
     let newBufNr = bufnr("%") 
 
     " create an entry for the current tab if necessary
-    if !has_key(g:BuffersManager, tabpagenr())
-        let  g:BuffersManager[tabpagenr()] = []
+    if !has_key(s:BuffersManager, tabpagenr())
+        let  s:BuffersManager[tabpagenr()] = []
     endif
 
     " Get conditions to add the tab
     let isListed            =  buflisted(newBufNr)
-    let isAlreadyInManager  =  index(g:BuffersManager[tabpagenr()], newBufNr) != -1
+    let isAlreadyInManager  =  index(s:BuffersManager[tabpagenr()], newBufNr) != -1
     let isNERDTreeBuffer    =  bufname("%") =~ "NERD_Tree_"
     let isOfIgnoredFT       =  index(s:ignoredFiletypes, &filetype) != -1
+
     " Add the buffer to the tab
     if isListed && !isAlreadyInManager && !isNERDTreeBuffer && !isOfIgnoredFT
-        call add (g:BuffersManager[tabpagenr()],newBufNr)
+        call add (s:BuffersManager[tabpagenr()],newBufNr)
     endif
 
     " remove a buffer if it was added whereas it shoudln't
@@ -94,15 +95,15 @@ function! RemoveBufferFromTab()
     let bufNr = bufnr("%")
     let altBufNr = bufnr("#")
 
-    if has_key(g:BuffersManager, currentTabNr)
-        let indexBuf = index(g:BuffersManager[currentTabNr], bufNr)
+    if has_key(s:BuffersManager, currentTabNr)
+        let indexBuf = index(s:BuffersManager[currentTabNr], bufNr)
         if indexBuf != -1
             " update bufferManager
-            call remove (g:BuffersManager[currentTabNr], indexBuf)
+            call remove (s:BuffersManager[currentTabNr], indexBuf)
 
             " Before deleting the buffer switch to alternate buffer 
             " or close current tab if nothin remains in it
-            if len(g:BuffersManager[currentTabNr]) > 0
+            if len(s:BuffersManager[currentTabNr]) > 0
                 execute 'b#'
             else
                 execute 'tabclose'
@@ -123,34 +124,34 @@ endfunction
 " switch to next buffer in the tab
 function! NextBuffer() 
     " find the index of the next buffer for the current tab
-    let s = index(g:BuffersManager[tabpagenr()], bufnr("%"))
+    let s = index(s:BuffersManager[tabpagenr()], bufnr("%"))
     if (s != -1)
-        let s = (s +1) % len(g:BuffersManager[tabpagenr()])
-        execute 'b ' . g:BuffersManager[tabpagenr()][s]
+        let s = (s +1) % len(s:BuffersManager[tabpagenr()])
+        execute 'b ' . s:BuffersManager[tabpagenr()][s]
     endif
 endfunction
 
 " switch to previous buffer in the tab
 function! PreviousBuffer() 
     " find the index of the next buffer for the current tab
-    let s = index(g:BuffersManager[tabpagenr()], bufnr("%"))
+    let s = index(s:BuffersManager[tabpagenr()], bufnr("%"))
     if (s != -1)
-        let s = (s -1) % len(g:BuffersManager[tabpagenr()])
-        execute 'b ' . g:BuffersManager[tabpagenr()][s]
+        let s = (s -1) % len(s:BuffersManager[tabpagenr()])
+        execute 'b ' . s:BuffersManager[tabpagenr()][s]
     endif
 endfunction
 
 " when a tab is closed, close all the buffer it contains
 function! ClearTab()
     let currentTabNr = string(tabpagenr())
-    if has_key(g:BuffersManager, currentTabNr)
-        if len(g:BuffersManager[currentTabNr]) > 0
-            for buf in g:BuffersManager[currentTabNr]
+    if has_key(s:BuffersManager, currentTabNr)
+        if len(s:BuffersManager[currentTabNr]) > 0
+            for buf in s:BuffersManager[currentTabNr]
                 execute 'b' . buf
                 call RemoveBufferFromTab()
             endfor
         endif
-        call remove(g:BuffersManager, currentTabNr)
+        call remove(s:BuffersManager, currentTabNr)
     endif
 endfunction
 
@@ -172,9 +173,9 @@ function! ChangeBuffer()
     endif
 
     " looking for the buffer in the BufferManager
-    if exists("g:BuffersManager") 
-        for tab in keys(g:BuffersManager)
-            if index(g:BuffersManager[tab], bufnr(nextBufName)) != -1
+    if exists("s:BuffersManager") 
+        for tab in keys(s:BuffersManager)
+            if index(s:BuffersManager[tab], bufnr(nextBufName)) != -1
                 " change to the tab containing the buffer
                 while string(tabpagenr()) != tab
                     execute "tabn"
