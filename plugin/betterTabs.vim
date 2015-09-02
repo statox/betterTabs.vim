@@ -19,6 +19,11 @@ if !exists("g:BuffersManager")
     let g:BuffersManager= {}
 endif
 
+" List containing the filetype of buffers not to add in the manager
+if !exists("s:ignoredFiletypes")
+    let s:ignoredFiletypes = ["help", "nerdtree"]
+endif
+
 " Helper function for development purpose
 " Show the content of the bufferManager dictionary
 function! ListBuffers()
@@ -66,9 +71,20 @@ function! AddBufferToTab()
         let  g:BuffersManager[tabpagenr()] = []
     endif
 
+    " Get conditions to add the tab
+    let isListed            =  buflisted(newBufNr)
+    let isAlreadyInManager  =  index(g:BuffersManager[tabpagenr()], newBufNr) != -1
+    let isNERDTreeBuffer    =  bufname("%") =~ "NERD_Tree_"
+    let isOfIgnoredFT       =  index(s:ignoredFiletypes, &filetype) != -1
     " Add the buffer to the tab
-    if buflisted(newBufNr) && index(g:BuffersManager[tabpagenr()], newBufNr) == -1
+    if isListed && !isAlreadyInManager && !isNERDTreeBuffer && !isOfIgnoredFT
         call add (g:BuffersManager[tabpagenr()],newBufNr)
+    endif
+
+    " remove a buffer if it was added whereas it shoudln't
+    " (solve the issue with nerdtree buffers which are created and then set as hidden)
+    if isAlreadyInManager && (!isListed || isNERDTreeBuffer || isOfIgnoredFT)
+        call RemoveBufferFromTab()
     endif
 endfunction
 
@@ -172,11 +188,12 @@ endfunction
 
 " autocommands to trigger the bufferManager actions
 augroup BuffersManagerGroup
-    autocmd! BufEnter * call AddBufferToTab()
-    "autocmd! BufWinEnter * call AddBufferToTab()
-    "autocmd! WinEnter * call AddBufferToTab()
-    "autocmd! BufWipeout * call RemoveBufferFromTab()
-    "autocmd! BufDelete  * call RemoveBufferFromTab()
+    autocmd! BufEnter     * call AddBufferToTab()
+    autocmd! BufEnter     * call AddBufferToTab()
+    autocmd! BufWinEnter  * call AddBufferToTab()
+    autocmd! BufNew       * call AddBufferToTab()
+    autocmd! BufAdd       * call AddBufferToTab()
+    autocmd! BufCreate    * call AddBufferToTab()
 augroup END
 
 
