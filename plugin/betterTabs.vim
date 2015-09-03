@@ -62,6 +62,16 @@ function! ListBuffers()
     endif
 endfunction
 
+" Called at vim starting to get the buffers passed as arguments
+function! StartUpInitialization()
+   " Call Add function for every buffers
+   let l:nr = 1
+   while l:nr <= bufnr('$')
+       bufdo call AddBufferToTab()
+       let l:nr += 1
+   endwhile
+endfunction
+
 " when a new buffer is created append it to the buffer manager
 function! AddBufferToTab()
     let newBufNr = bufnr("%") 
@@ -195,6 +205,8 @@ augroup BuffersManagerGroup
     autocmd! BufNew       * call AddBufferToTab()
     autocmd! BufAdd       * call AddBufferToTab()
     autocmd! BufCreate    * call AddBufferToTab()
+
+    autocmd! VimEnter     * call StartUpInitialization()
 augroup END
 
 
