@@ -25,7 +25,7 @@ if !exists("s:ignoredFiletypes")
 endif
 
 " Show the content of the bufferManager dictionary
-function! ListBuffers()
+function! s:ListBuffers()
     if exists("s:BuffersManager") 
         for tab in keys(s:BuffersManager)
 
@@ -62,17 +62,17 @@ function! ListBuffers()
 endfunction
 
 " Called at vim starting to get the buffers passed as arguments
-function! StartUpInitialization()
+function! s:StartUpInitialization()
    " Call Add function for every buffers
    let l:nr = 1
    while l:nr <= bufnr('$')
-       bufdo call AddBufferToTab()
+       bufdo call <SID>AddBufferToTab()
        let l:nr += 1
    endwhile
 endfunction
 
 " when a new buffer is created append it to the buffer manager
-function! AddBufferToTab()
+function! s:AddBufferToTab()
     let newBufNr = bufnr("%") 
 
     " create an entry for the current tab if necessary
@@ -94,12 +94,12 @@ function! AddBufferToTab()
     " remove a buffer if it was added whereas it shoudln't
     " (solve the issue with nerdtree buffers which are created and then set as hidden)
     if isAlreadyInManager && (!isListed || isNERDTreeBuffer || isOfIgnoredFT)
-        call RemoveBufferFromTab()
+        call <SID>RemoveBufferFromTab()
     endif
 endfunction
 
 " when a buffer is closed remove it from the buffer manager
-function! RemoveBufferFromTab()
+function! s:RemoveBufferFromTab()
     let currentTabNr = string(tabpagenr())
     let bufNr = bufnr("%")
     let altBufNr = bufnr("#")
@@ -131,7 +131,7 @@ function! RemoveBufferFromTab()
 endfunction
 
 " switch to next buffer in the tab
-function! NextBuffer() 
+function! s:NextBuffer() 
     " find the index of the next buffer for the current tab
     let s = index(s:BuffersManager[tabpagenr()], bufnr("%"))
     if (s != -1)
@@ -141,7 +141,7 @@ function! NextBuffer()
 endfunction
 
 " switch to previous buffer in the tab
-function! PreviousBuffer() 
+function! s:PreviousBuffer() 
     " find the index of the next buffer for the current tab
     let s = index(s:BuffersManager[tabpagenr()], bufnr("%"))
     if (s != -1)
@@ -151,13 +151,13 @@ function! PreviousBuffer()
 endfunction
 
 " when a tab is closed, close all the buffer it contains
-function! ClearTab()
+function! s:ClearTab()
     let currentTabNr = string(tabpagenr())
     if has_key(s:BuffersManager, currentTabNr)
         if len(s:BuffersManager[currentTabNr]) > 0
             for buf in s:BuffersManager[currentTabNr]
                 execute 'b' . buf
-                call RemoveBufferFromTab()
+                call <SID>RemoveBufferFromTab()
             endfor
         endif
         call remove(s:BuffersManager, currentTabNr)
@@ -166,9 +166,9 @@ endfunction
 
 " Function allowing to change buffer keeping a consistent
 " state of the bufferManager
-function! ChangeBuffer()
+function! s:ChangeBuffer()
     " output the buffer list to help the user
-    call ListBuffers()
+    call <SID>ListBuffers()
 
     " get user input
     let nextBuf = input("Buffer: ", "", "buffer")
@@ -198,24 +198,24 @@ endfunction
 
 " autocommands to trigger the bufferManager actions
 augroup BuffersManagerGroup
-    autocmd! BufEnter     * call AddBufferToTab()
-    autocmd! BufEnter     * call AddBufferToTab()
-    autocmd! BufWinEnter  * call AddBufferToTab()
-    autocmd! BufNew       * call AddBufferToTab()
-    autocmd! BufAdd       * call AddBufferToTab()
-    autocmd! BufCreate    * call AddBufferToTab()
+    autocmd! BufEnter     * call <SID>AddBufferToTab()
+    autocmd! BufEnter     * call <SID>AddBufferToTab()
+    autocmd! BufWinEnter  * call <SID>AddBufferToTab()
+    autocmd! BufNew       * call <SID>AddBufferToTab()
+    autocmd! BufAdd       * call <SID>AddBufferToTab()
+    autocmd! BufCreate    * call <SID>AddBufferToTab()
 
-    autocmd! VimEnter     * call StartUpInitialization()
+    autocmd! VimEnter     * call <SID>StartUpInitialization()
 augroup END
 
 
 " Create the command which are easier to use than functions
-command! NextBuf   call NextBuffer()
-command! PrevBuf   call PreviousBuffer()
-command! ChangeBuf call ChangeBuffer()
-command! ListBuf   call ListBuffers()
-command! CloseBuf  call RemoveBufferFromTab()
-command! CloseTab  call ClearTab()
+command! NextBuf   call <SID>NextBuffer()
+command! PrevBuf   call <SID>PreviousBuffer()
+command! ChangeBuf call <SID>ChangeBuffer()
+command! ListBuf   call <SID>ListBuffers()
+command! CloseBuf  call <SID>RemoveBufferFromTab()
+command! CloseTab  call <SID>ClearTab()
 
 " Let the users override the default mapping if they want
 if !exists('g:betterTabsVim_map_keys')
