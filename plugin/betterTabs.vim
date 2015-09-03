@@ -3,7 +3,6 @@
 " Author:   Adrien Fabre (statox)
 " License:  This file is distributed under the MIT License
 
-
 " Let's not be dictators, users can disable the plugin if they want
 if exists("g:loaded_betterTabs")
     finish
@@ -196,6 +195,7 @@ endfunction
 
 " autocommands to trigger the bufferManager actions
 augroup BuffersManagerGroup
+    autocmd!
     autocmd! BufEnter     * call <SID>AddBufferToTab()
     autocmd! BufEnter     * call <SID>AddBufferToTab()
     autocmd! BufWinEnter  * call <SID>AddBufferToTab()
