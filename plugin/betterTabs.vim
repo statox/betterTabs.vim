@@ -117,12 +117,10 @@ function! s:RemoveBufferFromTab()
             else
                 execute 'tabclose'
             endif
+        endif
 
-            " delete the buffer
-            execute 'bdelete ' . bufNr
-        else
-            "echom ("no buffer " . bufNr . " in tab " . currentTabNr)
-            " delete the buffer
+        " delete the buffer
+        if &filetype != "help"
             execute 'bdelete ' . bufNr
         endif
     else
