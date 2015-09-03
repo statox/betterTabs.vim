@@ -24,7 +24,6 @@ if !exists("s:ignoredFiletypes")
     let s:ignoredFiletypes = ["help", "nerdtree"]
 endif
 
-" Helper function for development purpose
 " Show the content of the bufferManager dictionary
 function! ListBuffers()
     if exists("s:BuffersManager") 
