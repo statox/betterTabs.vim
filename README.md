@@ -3,9 +3,15 @@ BetterTabs allows you to keep the a separation between tabs in Vim: Each buffer
 stays on the tab it was open in. This way you can keep one project per tab and
 don't find buffers switching from a tab to another breaking your workflow.
 
-**Important note** This plugin is still in development, it might then contains
-different bugs or unwanted behavior. If you find one please create [a new
-issue](https://github.com/statox/betterTabs.vim/issues).
+**Really important note** This plugin is not maintained anymore. I realized that
+when I was using this plugin I was fighting against Vim instead of using its
+native features. I would recommand *not* to use this plugin and get more comfortable
+with [`:h :buffers`](http://vimhelp.appspot.com/windows.txt.html#%3Abuffers) and
+the related commands.
+
+This plugin never reached the final product stage, it remained in development until
+I abandonned it. It might then contains different bugs or unwanted behavior. If you
+find one feel free to create a pull request.
 
 # The idea
 I created this plugin because I had to work on different projects with gVim on a
@@ -27,7 +33,7 @@ line to your `.vimrc`:
 
     Plug 'statox/betterTabs.vim'
 
-Save your `.vimrc`, execute `PlugInstall` and voil‡!
+Save your `.vimrc`, execute `PlugInstall` and voil√†!
     
 The plugin is entirely in vimscript, it doesn't need any dependencies.
 
