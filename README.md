@@ -3,11 +3,14 @@ BetterTabs allows you to keep the a separation between tabs in Vim: Each buffer
 stays on the tab it was open in. This way you can keep one project per tab and
 don't find buffers switching from a tab to another breaking your workflow.
 
-**Really important note** This plugin is not maintained anymore. I realized that
+
+⚠️ **Do not use this plugin** ⚠️
+
+**This plugin is not maintained. I realized that
 when I was using this plugin I was fighting against Vim instead of using its
 native features. I would recommand *not* to use this plugin and get more comfortable
 with [`:h :buffers`](http://vimhelp.appspot.com/windows.txt.html#%3Abuffers) and
-the related commands.
+the related commands.**
 
 This plugin never reached the final product stage, it remained in development until
 I abandonned it. It might then contains different bugs or unwanted behavior. If you
